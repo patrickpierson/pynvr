@@ -1,5 +1,6 @@
 import os
 import logging
+from sys import argv
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -9,7 +10,8 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Here you can specify connection string to camera
 # Examples:
 # cam = "rtsp://login:password@ip:port/stream_url" #connection to camera via RTSP with credentials
-cam = 0  # use local camera
+# cam = 0  # use local camera
+cam = "http://%s/videostream.cgi?user=%s&pwd=%s" % (argv[1], argv[2], argv[3])
 
 #####################
 #   logs settings   #

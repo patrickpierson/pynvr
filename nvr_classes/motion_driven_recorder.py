@@ -9,7 +9,7 @@ import numpy as np
 from system.camera_support import CameraConnectionSupport
 import config
 from system.shared import mkdir_p
-import Queue
+import queue
 import uuid
 
 
@@ -50,8 +50,7 @@ class MotionDrivenRecorder(CameraConnectionSupport):
         self._prevSubFolder = None
         self.scaleFrameTo = None
 
-
-        self._messages_queue = Queue.Queue()
+        self._messages_queue = queue.Queue()
 
         self._quit = False
 
