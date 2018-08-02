@@ -11,7 +11,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Examples:
 # cam = "rtsp://login:password@ip:port/stream_url" #connection to camera via RTSP with credentials
 # cam = 0  # use local camera
-cam = "http://%s/videostream.cgi?user=%s&pwd=%s" % (argv[1], argv[2], argv[3])
+cam = "http://%s/videostream.cgi?user=%s&pwd=%s" % (argv[2], argv[3], argv[4])
 
 #####################
 #   logs settings   #
@@ -62,3 +62,10 @@ OUTPUT_FRAME_RATE = 20
 # loading machine specific configuration
 if os.path.exists(os.path.join(APP_ROOT, "machine_specific_configuration.py")):
     from machine_specific_configuration import *  # noqa
+
+
+#############
+# S3 Bucket #
+#############
+
+S3_BUCKET = argv[1]

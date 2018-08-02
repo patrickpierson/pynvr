@@ -11,6 +11,7 @@ import config
 from system.shared import mkdir_p
 import queue
 import uuid
+import boto3
 
 
 class QueueCommand:
@@ -107,12 +108,19 @@ class MotionDrivenRecorder(CameraConnectionSupport):
         self._output = None
 
         self._isRecording = False
+        self._writeS3()
 
     def _getSubFolderName(self, dts):
         if self.subFolderNameGeneratorFunc is None:
             return None
 
         return self.subFolderNameGeneratorFunc(dts)
+
+    def _writeS3(self):
+        s3 = boto3.resource('s3')
+        self.logger.info('Writing to %s to S3' % self.filename.split('/')[-1])
+        date_key = dts.datetime.now().strftime('%Y/%m/%d/')
+        s3.Object(config.S3_BUCKET, 'videos/' + date_key + str(self.filename.split('/')[-1])).put(Body=open(self.filename, 'rb'))
 
     def _startRecording(self):
         if self.outputDirectory is None:
@@ -145,7 +153,7 @@ class MotionDrivenRecorder(CameraConnectionSupport):
             fileName = os.path.join(self.outputDirectory, fileName)
 
         self._output = cv.VideoWriter(fileName, fourcc, config.OUTPUT_FRAME_RATE, videoSize)
-
+        self.filename = fileName
         self._isRecording = True
         return True
 
